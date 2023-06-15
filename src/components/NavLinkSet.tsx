@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from 'react-router-dom';
-import { signInWithPopup, signOut } from 'firebase/auth';
+import { signInWithPopup, signOut, onAuthStateChanged } from 'firebase/auth';
 import { auth, Providers } from '../config/firebase';
 
 type Props = {
@@ -12,20 +12,29 @@ const NavLinkSet = (props: Props) => {
   const [isAuthed, setIsAuthed] = useState(localStorage.getItem('user.isAuthed') === 'true');
   // ^ this state is mainly for forcing this component to re-render when the login state is changed
 
+  // observer for checking authentication state
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        localStorage.setItem('user.isAuthed', 'true');
+        setIsAuthed(true);
+      } else {
+        localStorage.removeItem('user.isAuthed');
+        setIsAuthed(false);
+      }
+    });
+  }, [auth, navigate]);
+
   const signInOnClick = async () => {
     await signInWithPopup(auth, Providers.google)
     .then(() => {
-      localStorage.setItem('user.isAuthed', 'true');
-      setIsAuthed(true);
-      navigate('/');
+      location.reload();
     });
   }
   const signOutOnClick = () => {
     signOut(auth)
     .then(() => {
-      localStorage.removeItem('user.isAuthed');
-      setIsAuthed(false);
-      navigate('/');
+      location.reload();
     });
   }
 
