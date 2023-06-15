@@ -1,4 +1,5 @@
 import Home from "../pages/Home";
+import Catalogue from "../pages/Catalogue";
 
 interface RouteType {
     path: string,
@@ -12,6 +13,12 @@ const routes: RouteType[] = [
         path: "/",
         component: Home,
         name: "Home",
+        protected: false
+    },
+    {
+        path: "/catalogue",
+        component: Catalogue,
+        name: "Catalogue",
         protected: false
     }
 ]
