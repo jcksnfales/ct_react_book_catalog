@@ -1,6 +1,6 @@
 import BookTable from "../components/BookTable";
 
-const Catalogue = () => {
+const Catalog = () => {
     return (
       <div>
         <BookTable/>
@@ -8,5 +8,5 @@ const Catalogue = () => {
     )
   }
   
-  export default Catalogue;
+  export default Catalog;
   
