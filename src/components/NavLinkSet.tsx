@@ -32,7 +32,7 @@ const NavLinkSet = (props: Props) => {
   return (
     <div className="w-fit ms-auto">
       <Link onClick={props.linkAction} to="/" className="text-slate-400 hover:text-slate-200 me-6">Home</Link>
-      <Link onClick={props.linkAction} to="/catalog" className="text-slate-400 hover:text-slate-200 me-6">Catalogue</Link>
+      <Link onClick={props.linkAction} to="/catalog" className="text-slate-400 hover:text-slate-200 me-6">Catalog</Link>
       {
         (localStorage.getItem('user.isAuthed') === null) ? (
           <button onClick={signInOnClick} className="px-3 py-2 border rounded text-slate-400 border-slate-400 hover:text-slate-200 hover:border-slate-200">Sign In</button>

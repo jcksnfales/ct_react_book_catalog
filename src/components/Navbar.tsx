@@ -14,7 +14,7 @@ const Navbar = () => {
   return (
     <nav className="flex flex-wrap items-center justify-between bg-indigo-950 py-6 px-9">
       {/* TITLE */}
-      <div className="flex items-center text-slate-200 tracking-tight font-serif font-semibold text-xl my-2">Book Catalogue</div>
+      <div className="flex items-center text-slate-200 tracking-tight font-serif font-semibold text-xl my-2">Book Catalog</div>
       {/* LINKS - LARGE WINDOW */}
       <div className="max-sm:hidden block text-slate-400">
         <NavLinkSet/>
