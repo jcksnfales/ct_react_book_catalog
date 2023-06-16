@@ -8,6 +8,7 @@ type Props = {
   refreshTable: () => Promise<void>;
   formMode: string;
   selectionId: string | undefined;
+  bookData: [];
 }
 
 const FormModal = (props: Props) => {
@@ -20,6 +21,7 @@ const FormModal = (props: Props) => {
             refreshTable={props.refreshTable}
             formMode={props.formMode}
             selectionId={props.selectionId}
+            bookData={props.bookData}
           />
         </Provider>
       </div>

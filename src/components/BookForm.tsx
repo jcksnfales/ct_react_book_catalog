@@ -1,6 +1,7 @@
 import TextInput from "./TextInput";
 import { Checkbox } from "@mui/material";
 
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { server_calls } from "../api/server";
 import { useDispatch, useStore } from "react-redux";
@@ -10,11 +11,12 @@ interface FormProps {
   closeModal: () => void,
   refreshTable: () => Promise<void>,
   formMode: string,
-  selectionId: string | undefined
+  selectionId: string | undefined,
+  bookData: [],
 }
 
 const BookForm = (props:FormProps) => {
-  const { register, handleSubmit } = useForm({});
+  const { register, handleSubmit, setValue } = useForm({});
   const dispatch = useDispatch();
   const store = useStore();
 
@@ -41,6 +43,23 @@ const BookForm = (props:FormProps) => {
       })
     }
   }
+
+  useEffect(() => {
+    // if form is in update mode, pre-fill fields with selected book's data
+    if (props.formMode == "update") {
+      // get selected book data
+      let selectedData = props.bookData.find((b) => {return b["local_id"] == props.selectionId});
+      // selectedData shouldn't be undefined but we check if it is to make typescript happy
+      if (selectedData != undefined) {
+        // if so, set field values
+        setValue("title", selectedData["title"]);
+        setValue("author", selectedData["author"]);
+        setValue("page_count", selectedData["page_count"]);
+        setValue("isbn", selectedData["isbn"]);
+        setValue("is_hardcover", selectedData["is_hardcover"]);
+      }
+    }
+  }, [props])
 
   return (
   <>

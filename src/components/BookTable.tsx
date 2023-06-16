@@ -51,7 +51,7 @@ const BookTable = () => {
   return (
   <>
     <h1 className="mt-6 text-center font-bold text-3xl text-indigo-950 font-serif">Book Catalog</h1>
-    <FormModal open={formModalState} funcClose={closeFormModal} refreshTable={getData} formMode={formMode} selectionId={selectionModel}/>
+    <FormModal open={formModalState} funcClose={closeFormModal} refreshTable={getData} formMode={formMode} selectionId={selectionModel} bookData={bookData}/>
     <PromptModal open={promptModalState} funcClose={closePromptModal} confirmAction={deleteData}/>
     { // only show action buttons if user is logged in
       localStorage.getItem('user.isAuthed') === 'true' ? (
