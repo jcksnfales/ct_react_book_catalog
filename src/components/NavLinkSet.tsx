@@ -22,19 +22,20 @@ const NavLinkSet = (props: Props) => {
         localStorage.removeItem('user.isAuthed');
         setIsAuthed(false);
       }
+      console.log("authed: " + isAuthed);
     });
   }, [auth, navigate]);
 
   const signInOnClick = async () => {
     await signInWithPopup(auth, Providers.google)
     .then(() => {
-      location.reload();
+      navigate('/');
     });
   }
   const signOutOnClick = () => {
     signOut(auth)
     .then(() => {
-      location.reload();
+      navigate('/');
     });
   }
 

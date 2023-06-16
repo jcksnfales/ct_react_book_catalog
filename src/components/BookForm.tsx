@@ -20,7 +20,7 @@ const BookForm = (props:FormProps) => {
   const dispatch = useDispatch();
   const store = useStore();
 
-  const onSubmit = async (data:any, event:any) => {
+  const onSubmit = async (data:any) => {
     dispatch(chooseTitle(data.title));
     dispatch(chooseAuthor(data.author));
     dispatch(choosePageCount(data.page_count));
