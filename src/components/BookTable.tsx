@@ -37,7 +37,6 @@ const BookTable = () => {
   }
 
   const deleteData = () => {
-    console.log('deleting data...')
     if (selectionModel) {
       server_calls.delete(selectionModel[0])
       .then(() => {

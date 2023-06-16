@@ -27,16 +27,13 @@ const BookForm = (props:FormProps) => {
 
     if (props.formMode == "update" && props.selectionId != undefined) {
       // update
-      console.log('updating');
       await server_calls.update(props.selectionId[0], store.getState())
       .then(() => {
-        console.log(typeof props.selectionId[0] + " " + props.selectionId)
         props.closeModal();
         props.refreshTable();
       });
     } else {
       // create
-      console.log('creating');
       await server_calls.create(store.getState())
       .then(() => {
         props.closeModal();
