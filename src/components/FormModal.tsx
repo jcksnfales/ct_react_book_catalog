@@ -5,8 +5,9 @@ import { store } from '../redux/store';
 type Props = {
   open: boolean;
   funcClose: () => void;
-  selectedData: string | undefined;
   refreshTable: () => Promise<void>;
+  formMode: string;
+  selectionId: string | undefined;
 }
 
 const FormModal = (props: Props) => {
@@ -14,7 +15,12 @@ const FormModal = (props: Props) => {
     <div onClick={props.funcClose} className="fixed top-0 w-screen h-screen z-10 bg-slate-800 bg-opacity-50">
       <div onClick={(event) => {event.stopPropagation()}} className="w-2/3 mt-40 m-auto bg-slate-200 rounded p-10">
         <Provider store={store}>
-          <BookForm closeModal={props.funcClose} refreshTable={props.refreshTable}/>
+          <BookForm 
+            closeModal={props.funcClose}
+            refreshTable={props.refreshTable}
+            formMode={props.formMode}
+            selectionId={props.selectionId}
+          />
         </Provider>
       </div>
     </div>

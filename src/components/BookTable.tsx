@@ -17,6 +17,7 @@ const columns:GridColDef[] = [
 const BookTable = () => {
   const {bookData, getData} = fetchData();
   const [selectionModel, setSelectionModel] = useState<string>();
+  const [formMode, setFormMode] = useState("create");
   const [formModalState, setFormModalState] = useState(false);
   const [promptModalState, setPromptModalState] = useState(false);
 
@@ -36,6 +37,7 @@ const BookTable = () => {
   }
 
   const deleteData = () => {
+    console.log('deleting data...')
     if (selectionModel) {
       server_calls.delete(selectionModel[0])
       .then(() => {

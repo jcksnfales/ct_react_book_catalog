@@ -7,9 +7,10 @@ import { useDispatch, useStore } from "react-redux";
 import { chooseTitle, chooseAuthor, choosePageCount, chooseIsHardcover, chooseISBN } from "../redux/slices/RootSlice";
 
 interface FormProps {
-  id?: string[],
   closeModal: () => void,
-  refreshTable: () => Promise<void>
+  refreshTable: () => Promise<void>,
+  formMode: string,
+  selectionId: string | undefined
 }
 
 const BookForm = (props:FormProps) => {
@@ -18,19 +19,24 @@ const BookForm = (props:FormProps) => {
   const store = useStore();
 
   const onSubmit = async (data:any, event:any) => {
-    if (props.id && props.id.length > 0) {
-      await server_calls.update(props.id[0], data)
+    dispatch(chooseTitle(data.title));
+    dispatch(chooseAuthor(data.author));
+    dispatch(choosePageCount(data.page_count));
+    dispatch(chooseIsHardcover(data.is_hardcover));
+    dispatch(chooseISBN(data.isbn));
+
+    if (props.formMode == "update" && props.selectionId != undefined) {
+      // update
+      console.log('updating');
+      await server_calls.update(props.selectionId[0], store.getState())
       .then(() => {
-        window.location.reload();
-        event.target.reset();
+        console.log(typeof props.selectionId[0] + " " + props.selectionId)
+        props.closeModal();
+        props.refreshTable();
       });
     } else {
-      dispatch(chooseTitle(data.title));
-      dispatch(chooseAuthor(data.author));
-      dispatch(choosePageCount(data.page_count));
-      dispatch(chooseIsHardcover(data.is_hardcover));
-      dispatch(chooseISBN(data.isbn));
-
+      // create
+      console.log('creating');
       await server_calls.create(store.getState())
       .then(() => {
         props.closeModal();
@@ -40,35 +46,40 @@ const BookForm = (props:FormProps) => {
   }
 
   return (
+  <>
+    {
+      (props.formMode == "update") ? (
+        <h1 className="mb-4 text-center font-bold text-2xl text-indigo-950 font-serif">Update</h1>
+      ) : (
+        <h1 className="mb-4 text-center font-bold text-2xl text-indigo-950 font-serif">Create</h1>
+      )
+    }
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div>
-        <label htmlFor="title">Title</label>
+      <div className="mb-2">
+        <label htmlFor="title" className="text-indigo-950 font-semibold">Title</label>
         <TextInput {...register('title')} name="title" placeholder="title" type="text"></TextInput>
       </div>
-      <div>
-        <label htmlFor="author">Author</label>
+      <div className="mb-2">
+        <label htmlFor="author" className="text-indigo-950 font-semibold">Author</label>
         <TextInput {...register('author')} name="author" placeholder="author" type="text"></TextInput>
       </div>
-      <div>
-        <label htmlFor="page_count">Page Count</label>
+      <div className="mb-2">
+        <label htmlFor="page_count" className="text-indigo-950 font-semibold">Page Count</label>
         <TextInput {...register('page_count')} name="page_count" placeholder="page count" type="number"></TextInput>
       </div>
-      <div>
-        <label htmlFor="isbn">ISBN</label>
+      <div className="mb-2">
+        <label htmlFor="isbn" className="text-indigo-950 font-semibold">ISBN</label>
         <TextInput {...register('isbn')} name="isbn" placeholder="ISBN" type="number"></TextInput>
       </div>
-      {/* <div>
-        
-        <Input {...register('is_hardcover')} name="is_hardcover" placeholder="is hardcover?" type="text"></Input>
-      </div> */}
-      <div>
-        <label htmlFor="is_hardcover">Is Hardcover?</label>
+      <div className="mb-2">
+        <label htmlFor="is_hardcover" className="text-indigo-950 font-semibold">Is Hardcover?</label>
         <Checkbox {...register('is_hardcover')} name="is_hardcover"/>
       </div>
       <div className="flex">
         <button type="submit" className="mx-auto px-6 py-2 rounded border-2 text-indigo-950 border-indigo-950 hover:text-slate-200 hover:bg-indigo-950 font-semibold tracking-wide">Submit</button>
       </div>
     </form>
+  </>
   )
 }
 
